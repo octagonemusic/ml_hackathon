@@ -1,0 +1,71 @@
+{
+    "timestamp": "2024-11-16 18:50:09",
+    "summary": {
+        "total_parameters_monitored": 5,
+        "alert_count": 0,
+        "critical_count": 0,
+        "warning_count": 0,
+        "overall_status": "Normal"
+    },
+    "measurements": {
+        "TDS (mg/L)": {
+            "value": 450.0,
+            "unit": "mg/L",
+            "source": "measured"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 750.0,
+            "unit": "\u00b5S/cm",
+            "source": "measured"
+        },
+        "pH": {
+            "value": 7.2,
+            "unit": "pH units",
+            "source": "measured"
+        }
+    },
+    "predictions": {
+        "TDS (mg/L)": {
+            "value": 461.3783445603027,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        },
+        "Chloride (mg/L)": {
+            "value": 78.52756395580172,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.84,
+            "trend": "\u2192"
+        },
+        "Sodium (mg/L)": {
+            "value": 64.54643118302707,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.9,
+            "trend": "\u2192"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 727.621875935966,
+            "unit": "\u00b5S/cm",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        }
+    },
+    "alerts": [],
+    "recommendations": [
+        {
+            "type": "status",
+            "priority": "Low",
+            "message": "Water quality parameters within acceptable limits.",
+            "action_required": "Continue regular monitoring."
+        }
+    ],
+    "metadata": {
+        "model_version": "1.0",
+        "thresholds_source": "WHO and Indian Standards",
+        "report_id": "085b7a0a-c839-4e93-b2fb-ba97c444904e"
+    }
+}

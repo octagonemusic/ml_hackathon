@@ -1,0 +1,100 @@
+{
+    "timestamp": "2024-11-16 18:50:09",
+    "summary": {
+        "total_parameters_monitored": 5,
+        "alert_count": 2,
+        "critical_count": 1,
+        "warning_count": 1,
+        "overall_status": "Critical"
+    },
+    "measurements": {
+        "TDS (mg/L)": {
+            "value": 990.0,
+            "unit": "mg/L",
+            "source": "measured"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 1490.0,
+            "unit": "\u00b5S/cm",
+            "source": "measured"
+        },
+        "pH": {
+            "value": 7.5,
+            "unit": "pH units",
+            "source": "measured"
+        }
+    },
+    "predictions": {
+        "TDS (mg/L)": {
+            "value": 919.4731665861696,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        },
+        "Chloride (mg/L)": {
+            "value": 211.563391807572,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.84,
+            "trend": "\u2192"
+        },
+        "Sodium (mg/L)": {
+            "value": 168.18507177481303,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.9,
+            "trend": "\u2192"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 1568.5841228685651,
+            "unit": "\u00b5S/cm",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        }
+    },
+    "alerts": [
+        {
+            "parameter": "TDS (mg/L)",
+            "status": "Warning",
+            "value": 919.4731665861696,
+            "threshold": 500.0,
+            "exceedance_ratio": 1.838946333172339,
+            "priority": "Medium"
+        },
+        {
+            "parameter": "EC (\u00b5S/cm)",
+            "status": "Critical",
+            "value": 1568.5841228685651,
+            "threshold": 750.0,
+            "exceedance_ratio": 2.091445497158087,
+            "priority": "High"
+        }
+    ],
+    "recommendations": [
+        {
+            "type": "action",
+            "priority": "High",
+            "parameter": "EC (\u00b5S/cm)",
+            "message": "Critical level exceeded for EC (\u00b5S/cm)",
+            "current_value": 1568.5841228685651,
+            "threshold": 750.0,
+            "action_required": "Investigate source of dissolved solids. Check for industrial runoff."
+        },
+        {
+            "type": "monitor",
+            "priority": "Medium",
+            "parameter": "TDS (mg/L)",
+            "message": "Warning level exceeded for TDS (mg/L)",
+            "current_value": 919.4731665861696,
+            "threshold": 500.0,
+            "action_required": "Increase monitoring frequency and check for trends."
+        }
+    ],
+    "metadata": {
+        "model_version": "1.0",
+        "thresholds_source": "WHO and Indian Standards",
+        "report_id": "e9198c4c-f8b4-40a3-a10b-503b4e7f30ec"
+    }
+}

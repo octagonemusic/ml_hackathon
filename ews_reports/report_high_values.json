@@ -1,0 +1,134 @@
+{
+    "timestamp": "2024-11-16 18:50:09",
+    "summary": {
+        "total_parameters_monitored": 5,
+        "alert_count": 4,
+        "critical_count": 2,
+        "warning_count": 2,
+        "overall_status": "Critical"
+    },
+    "measurements": {
+        "TDS (mg/L)": {
+            "value": 1500.0,
+            "unit": "mg/L",
+            "source": "measured"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 2200.0,
+            "unit": "\u00b5S/cm",
+            "source": "measured"
+        },
+        "pH": {
+            "value": 7.2,
+            "unit": "pH units",
+            "source": "measured"
+        }
+    },
+    "predictions": {
+        "TDS (mg/L)": {
+            "value": 1358.996576908285,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        },
+        "Chloride (mg/L)": {
+            "value": 370.015881687913,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.84,
+            "trend": "\u2192"
+        },
+        "Sodium (mg/L)": {
+            "value": 295.2502134186746,
+            "unit": "mg/L",
+            "source": "predicted",
+            "reliability": 0.9,
+            "trend": "\u2192"
+        },
+        "EC (\u00b5S/cm)": {
+            "value": 2415.680767331291,
+            "unit": "\u00b5S/cm",
+            "source": "predicted",
+            "reliability": 0.94,
+            "trend": "\u2192"
+        }
+    },
+    "alerts": [
+        {
+            "parameter": "TDS (mg/L)",
+            "status": "Critical",
+            "value": 1358.996576908285,
+            "threshold": 500.0,
+            "exceedance_ratio": 2.71799315381657,
+            "priority": "High"
+        },
+        {
+            "parameter": "EC (\u00b5S/cm)",
+            "status": "Critical",
+            "value": 2415.680767331291,
+            "threshold": 750.0,
+            "exceedance_ratio": 3.220907689775055,
+            "priority": "High"
+        },
+        {
+            "parameter": "Chloride (mg/L)",
+            "status": "Warning",
+            "value": 370.015881687913,
+            "threshold": 250.0,
+            "exceedance_ratio": 1.480063526751652,
+            "priority": "Medium"
+        },
+        {
+            "parameter": "Sodium (mg/L)",
+            "status": "Warning",
+            "value": 295.2502134186746,
+            "threshold": 200.0,
+            "exceedance_ratio": 1.476251067093373,
+            "priority": "Medium"
+        }
+    ],
+    "recommendations": [
+        {
+            "type": "action",
+            "priority": "High",
+            "parameter": "TDS (mg/L)",
+            "message": "Critical level exceeded for TDS (mg/L)",
+            "current_value": 1358.996576908285,
+            "threshold": 500.0,
+            "action_required": "Check water source and filtration system. Consider reverse osmosis treatment."
+        },
+        {
+            "type": "action",
+            "priority": "High",
+            "parameter": "EC (\u00b5S/cm)",
+            "message": "Critical level exceeded for EC (\u00b5S/cm)",
+            "current_value": 2415.680767331291,
+            "threshold": 750.0,
+            "action_required": "Investigate source of dissolved solids. Check for industrial runoff."
+        },
+        {
+            "type": "monitor",
+            "priority": "Medium",
+            "parameter": "Chloride (mg/L)",
+            "message": "Warning level exceeded for Chloride (mg/L)",
+            "current_value": 370.015881687913,
+            "threshold": 250.0,
+            "action_required": "Increase monitoring frequency and check for trends."
+        },
+        {
+            "type": "monitor",
+            "priority": "Medium",
+            "parameter": "Sodium (mg/L)",
+            "message": "Warning level exceeded for Sodium (mg/L)",
+            "current_value": 295.2502134186746,
+            "threshold": 200.0,
+            "action_required": "Increase monitoring frequency and check for trends."
+        }
+    ],
+    "metadata": {
+        "model_version": "1.0",
+        "thresholds_source": "WHO and Indian Standards",
+        "report_id": "927128ff-0910-46f4-b36c-afa11de7532d"
+    }
+}
