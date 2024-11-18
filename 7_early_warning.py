@@ -5,6 +5,11 @@ import joblib
 import json
 import os
 import uuid
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
 
 class WaterQualityEWS:
     def __init__(self):
@@ -400,6 +405,140 @@ def print_report(report):
     
     print("\n" + "="*60 + "\n")
 
+def generate_pdf_report(report, filename):
+    """Generate PDF version of the water quality report"""
+    doc = SimpleDocTemplate(
+        filename,
+        pagesize=letter,
+        rightMargin=72,
+        leftMargin=72,
+        topMargin=72,
+        bottomMargin=72
+    )
+    
+    # Container for the 'Flowable' objects
+    elements = []
+    styles = getSampleStyleSheet()
+    
+    # Custom styles
+    styles.add(ParagraphStyle(
+        name='Alert',
+        parent=styles['Normal'],
+        textColor=colors.red,
+        spaceAfter=10
+    ))
+    
+    # Title
+    title = Paragraph(
+        f"Water Quality Report - {report['timestamp']}", 
+        styles['Heading1']
+    )
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+    
+    # Overall Status
+    status_color = colors.red if report['summary']['overall_status'] == 'Critical' else \
+                  colors.orange if report['summary']['overall_status'] == 'Warning' else \
+                  colors.green
+    
+    status = Paragraph(
+        f"Overall Status: <font color={status_color}>{report['summary']['overall_status']}</font>",
+        styles['Heading2']
+    )
+    elements.append(status)
+    elements.append(Spacer(1, 12))
+    
+    # Summary Table
+    summary_data = [
+        ['Total Parameters', str(report['summary']['total_parameters_monitored'])],
+        ['Total Alerts', str(report['summary']['alert_count'])],
+        ['Critical Alerts', str(report['summary']['critical_count'])],
+        ['Warning Alerts', str(report['summary']['warning_count'])]
+    ]
+    
+    summary_table = Table(summary_data)
+    summary_table.setStyle(TableStyle([
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
+        ('PADDING', (0, 0), (-1, -1), 6),
+    ]))
+    elements.append(summary_table)
+    elements.append(Spacer(1, 20))
+    
+    # Measurements
+    elements.append(Paragraph('Measured Parameters', styles['Heading2']))
+    if report['measurements']:
+        meas_data = [[
+            'Parameter', 'Value', 'Unit'
+        ]]
+        for param, data in report['measurements'].items():
+            meas_data.append([
+                param,
+                f"{data['value']:.2f}",
+                data['unit']
+            ])
+        
+        meas_table = Table(meas_data)
+        meas_table.setStyle(TableStyle([
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('PADDING', (0, 0), (-1, -1), 6),
+        ]))
+        elements.append(meas_table)
+    elements.append(Spacer(1, 20))
+    
+    # Predictions
+    elements.append(Paragraph('Predicted Parameters', styles['Heading2']))
+    if report['predictions']:
+        pred_data = [[
+            'Parameter', 'Value', 'Unit', 'Reliability', 'Trend'
+        ]]
+        for param, data in report['predictions'].items():
+            if param not in report['measurements']:
+                pred_data.append([
+                    param,
+                    f"{data['value']:.2f}",
+                    data['unit'],
+                    f"{data['reliability']:.2f}" if data['reliability'] != 'N/A' else 'N/A',
+                    data['trend']
+                ])
+        
+        pred_table = Table(pred_data)
+        pred_table.setStyle(TableStyle([
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('PADDING', (0, 0), (-1, -1), 6),
+        ]))
+        elements.append(pred_table)
+    elements.append(Spacer(1, 20))
+    
+    # Alerts
+    if report['alerts']:
+        elements.append(Paragraph('Alerts', styles['Heading2']))
+        for alert in report['alerts']:
+            alert_text = (
+                f"{alert['status'].upper()}: {alert['parameter']}\n"
+                f"Current: {alert['value']:.2f}\n"
+                f"Threshold: {alert['threshold']:.2f}\n"
+                f"Exceedance: {(alert['exceedance_ratio']-1)*100:.1f}%"
+            )
+            elements.append(Paragraph(alert_text, styles['Alert']))
+    
+    # Recommendations
+    if report['recommendations']:
+        elements.append(Paragraph('Recommendations', styles['Heading2']))
+        for rec in report['recommendations']:
+            rec_text = (
+                f"{rec['priority']} Priority - {rec['type'].title()}:\n"
+                f"{rec['message']}\n"
+                f"Action: {rec['action_required']}"
+            )
+            elements.append(Paragraph(rec_text, styles['Normal']))
+            elements.append(Spacer(1, 12))
+    
+    # Build PDF
+    doc.build(elements)
+
 def main():
     # Create reports directory if it doesn't exist
     if not os.path.exists('ews_reports'):
@@ -469,6 +608,10 @@ def main():
         report_path = f'ews_reports/report_{case_name.lower().replace(" ", "_")}.json'
         with open(report_path, 'w') as f:
             json.dump(report, f, indent=4)
+        
+        # Generate PDF report
+        pdf_path = f'ews_reports/report_{case_name.lower().replace(" ", "_")}.pdf'
+        generate_pdf_report(report, pdf_path)
 
 if __name__ == "__main__":
     main()
