@@ -6,3 +6,4 @@ pyvenv.cfg
 changes.txt
 __pycache__
 share
+etc
