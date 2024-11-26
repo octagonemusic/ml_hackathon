@@ -218,6 +218,16 @@ def main():
         layout="wide"
     )
     
+    # Hide the default navbar
+    hide_navbar = """
+        <style>
+            #MainMenu {visibility: hidden;}
+            header {visibility: hidden;}
+            footer {visibility: hidden;}
+        </style>
+    """
+    st.markdown(hide_navbar, unsafe_allow_html=True)
+    
     st.title("💧 Water Quality Early Warning System")
     
     system = WaterQualitySystem()
