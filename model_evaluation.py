@@ -1,3 +1,6 @@
+# Comprehensive model evaluation script for water quality predictions
+# Implements detailed metrics and visualization for model performance analysis
+
 import pandas as pd
 import numpy as np
 from sklearn.metrics import (
@@ -44,7 +47,17 @@ def load_models_and_data():
     return models, df
 
 def calculate_regression_metrics(y_true, y_pred):
-    """Calculate comprehensive regression metrics"""
+    """
+    Calculate comprehensive regression metrics for model evaluation
+    
+    Args:
+        y_true (array): Actual values
+        y_pred (array): Predicted values
+    
+    Returns:
+        dict: Dictionary containing all calculated metrics
+    """
+    # Calculate standard regression metrics
     metrics = {
         'R² Score': r2_score(y_true, y_pred),
         'Adjusted R²': 1 - (1-r2_score(y_true, y_pred))*(len(y_true)-1)/(len(y_true)-1-1),
@@ -55,7 +68,7 @@ def calculate_regression_metrics(y_true, y_pred):
         'Explained Variance': explained_variance_score(y_true, y_pred)
     }
     
-    # Calculate additional statistical metrics
+    # Calculate additional statistical metrics for residuals
     residuals = y_true - y_pred
     metrics.update({
         'Residual Standard Error': np.std(residuals),

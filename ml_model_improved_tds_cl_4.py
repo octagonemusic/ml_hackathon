@@ -1,3 +1,6 @@
+# Improved model for TDS to Chloride prediction
+# Uses polynomial features and multiple input parameters
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -7,16 +10,25 @@ from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
 def improve_tds_chloride_prediction(df):
-    # Prepare data
+    """
+    Enhanced TDS to Chloride prediction using polynomial features
+    
+    Args:
+        df (DataFrame): Input water quality data
+    
+    Returns:
+        tuple: (results, model, polynomial transformer, X scaler, y scaler)
+    """
+    # Prepare data with multiple features for better prediction
     X = df[['Total Dissolved Solids (mg/L)', 'Electrical Conductivity (µS/cm) at 25°C)']].values
     y = df['Chloride (mg/L)'].values
     
-    # Split data
+    # Standard ML pipeline with polynomial features
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
     
-    # Scale features
+    # Scale features for better model performance
     scaler_X = StandardScaler()
     scaler_y = StandardScaler()
     
@@ -26,7 +38,7 @@ def improve_tds_chloride_prediction(df):
     y_train_scaled = scaler_y.fit_transform(y_train.reshape(-1, 1)).ravel()
     y_test_scaled = scaler_y.transform(y_test.reshape(-1, 1)).ravel()
     
-    # Add polynomial features
+    # Add polynomial features for non-linear relationships
     poly = PolynomialFeatures(degree=2, include_bias=False)
     X_train_poly = poly.fit_transform(X_train_scaled)
     X_test_poly = poly.transform(X_test_scaled)
