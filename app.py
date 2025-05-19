@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-
 class WaterQualitySystem:
     def __init__(self):
         self.models = self._load_models()
@@ -212,7 +211,6 @@ class WaterQualitySystem:
             ],
         }
 
-
 def main():
     st.set_page_config(
         page_title="Water Quality EWS", page_icon="💧", layout="wide"
@@ -333,7 +331,6 @@ def main():
                 if 0.6 <= results["relationships"]["Na_Cl_ratio"] <= 0.9
                 else "Abnormal",
             )
-
 
 if __name__ == "__main__":
     main()
